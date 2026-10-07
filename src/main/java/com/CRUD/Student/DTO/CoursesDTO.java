@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoursesDTO {
-    private UUID id;
     private String name;
     private String author;
 }

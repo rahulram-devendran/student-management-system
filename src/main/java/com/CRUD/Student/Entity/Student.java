@@ -27,6 +27,8 @@ public class Student {
     private String mobileNumber;
     private String department;
 
+    @Column(length = 255)
+    private String email;
     @Version
     private Integer version;
 }

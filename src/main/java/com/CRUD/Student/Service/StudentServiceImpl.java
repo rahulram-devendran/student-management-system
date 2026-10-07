@@ -59,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
 
         student1.setName(student.getName());
         student1.setMobileNumber(student.getMobileNumber());
-        student1.setDepartment(student.getStudentDepartment());
+        student1.setDepartment(student.getDepartment());
 
         Student updatedStudent = studentRepository.save(student1);
         return studentMapper.studenttoStudentDTO(updatedStudent);

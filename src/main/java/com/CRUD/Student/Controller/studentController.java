@@ -36,7 +36,7 @@ public class studentController {
         StudentDTO studentDTO = studentService.createStudent(student);
         HttpHeaders http = new org.springframework.http.HttpHeaders();
         http.add("Location"
-                , studentDTO.getName() + " id= " + studentDTO.getId());
+                , studentDTO.getName() + " id= " + studentDTO.getName());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Student "+studentDTO.getName()+" added Successfully");
     }
