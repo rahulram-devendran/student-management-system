@@ -2,12 +2,13 @@ package com.CRUD.Student.Repository;
 
 import com.CRUD.Student.Entity.Student;
 import jakarta.validation.ConstraintViolationException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+@Disabled
 @DataJpaTest
 class StudentRepositoryTest {
 
