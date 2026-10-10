@@ -6,8 +6,10 @@ import com.CRUD.Student.Mapper.StudentMapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.mysql.MySQLContainer;
@@ -17,15 +19,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Testcontainers
+//@Testcontainers
 @SpringBootTest
 //@ActiveProfiles("mysqlp")
 public class MySqlIT{
 
-    @Container
-    @ServiceConnection
-    static MySQLContainer mySQLContainer =
-            new MySQLContainer("mysql:9");
+//    @Container
+//    @ServiceConnection
+//    static MySQLContainer mySQLContainer =
+//            new MySQLContainer("mysql:9");
 
     @Autowired
     StudentRepository studentRepository;
