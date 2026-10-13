@@ -5,8 +5,8 @@ import com.CRUD.Student.Entity.Student;
 import com.CRUD.Student.Exception.StudentNotFoundEnception;
 import com.CRUD.Student.Mapper.StudentMapper;
 import com.CRUD.Student.Repository.StudentRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +25,24 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> getAllStudents() {
-        return studentRepository
-                .findAll()
+    public List<StudentDTO> getAllStudents(String studentName) {
+        List<Student> studentList;
+
+        if(StringUtils.hasText(studentName)){
+            studentList = listStudentsByNames(studentName);
+        }else{
+            studentList = studentRepository
+                    .findAll();
+        }
+
+        return studentList
                 .stream()
                 .map(studentMapper::studenttoStudentDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<Student> listStudentsByNames(String studentName) {
+        return studentRepository.findAllByNameIsLikeIgnoreCase("%"+studentName+"%");
     }
 
     @Override

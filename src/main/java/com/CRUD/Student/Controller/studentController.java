@@ -22,8 +22,8 @@ public class studentController {
     }
 
     @GetMapping("/find")
-    public List<StudentDTO> getAllStudents() {
-        return studentService.getAllStudents();
+    public List<StudentDTO> getAllStudents(@RequestParam(required = false) String studentName) {
+        return studentService.getAllStudents(studentName);
     }
 
     @GetMapping("/find/{id}")
