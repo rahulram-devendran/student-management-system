@@ -5,10 +5,12 @@ import com.CRUD.Student.Entity.Student;
 import com.CRUD.Student.Exception.StudentNotFoundEnception;
 import com.CRUD.Student.Mapper.StudentMapper;
 import com.CRUD.Student.Repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService {
 
+    private final Integer default_pg_size = 10;
+    private final Integer default_pg_no = 0;
     private final StudentMapper studentMapper;
     private final StudentRepository studentRepository;
 
@@ -25,24 +29,34 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> getAllStudents(String studentName) {
-        List<Student> studentList;
-
-        if(StringUtils.hasText(studentName)){
-            studentList = listStudentsByNames(studentName);
-        }else{
-            studentList = studentRepository
-                    .findAll();
-        }
-
-        return studentList
-                .stream()
-                .map(studentMapper::studenttoStudentDTO)
-                .collect(Collectors.toList());
+    public Page<StudentDTO> getAllStudents(String studentName,
+                                           Integer pageNumber,
+                                           Integer pageSize) {
+        PageRequest pgreq = buildPageReq(pageNumber,pageSize);
+        Page<Student> studentPage = studentRepository.findAllByNameIsLikeIgnoreCase(
+                "%"+studentName+"%",pgreq
+        );
+        return studentPage.map(studentMapper::studenttoStudentDTO);
     }
 
-    public List<Student> listStudentsByNames(String studentName) {
-        return studentRepository.findAllByNameIsLikeIgnoreCase("%"+studentName+"%");
+    public PageRequest buildPageReq(Integer pgno,Integer pgsize){
+        Integer bpgno = 0,bpgsize = 0;
+        bpgno = (pgno==null || pgno<0)?default_pg_no:pgno;
+
+        if(pgsize==null){
+            bpgsize=default_pg_size;
+        }
+        else{
+            if(pgsize>1000){
+                bpgsize = 1000;
+            }
+            else{
+                bpgsize=pgsize;
+            }
+        }
+
+        Sort sort = Sort.by(Sort.Order.asc("name"));
+        return PageRequest.of(bpgno,bpgsize,sort);
     }
 
     @Override

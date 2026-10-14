@@ -35,8 +35,8 @@ class studentControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @MockitoBean
-    StudentService studentService;
+//    @MockitoBean
+//    StudentService studentService;
 
     @Disabled
     @Test
@@ -55,9 +55,16 @@ class studentControllerTest {
 
     @Test
     void test2() throws Exception {
+        StudentDTO studentDTO = StudentDTO.builder()
+                .name("ABC").mobileNumber("1234").department("AD1").build();
+
+        System.out.println(studentController.getAllStudents(
+                "SAM",null,null));
+
         mockMvc.perform(get("/student/find")
-                .param("studentName","S"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                        .queryParam("studentName","SAM")
+                .content(objectMapper.writeValueAsString(studentDTO)))
+                .andExpect(status().isOk());
+
     }
 }

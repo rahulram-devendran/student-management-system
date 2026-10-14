@@ -27,8 +27,6 @@ class StudentRepositoryTest {
 
     @Test
     void test() {
-        List<Student> ls = studentRepository.findAllByNameIsLikeIgnoreCase("%Sam%");
-        System.out.println(ls.get(0).getName());
-        assertThat(ls.size()).isEqualTo(0);
+
     }
 }

@@ -3,12 +3,12 @@ package com.CRUD.Student.Controller;
 import com.CRUD.Student.DTO.StudentDTO;
 import com.CRUD.Student.Service.StudentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,8 +22,10 @@ public class studentController {
     }
 
     @GetMapping("/find")
-    public List<StudentDTO> getAllStudents(@RequestParam(required = false) String studentName) {
-        return studentService.getAllStudents(studentName);
+    public Page<StudentDTO> getAllStudents(@RequestParam(required = false,name = "sname") String studentName,
+                                           @RequestParam(required = false,name = "pno") Integer pageNumber,
+                                           @RequestParam(required = false,name = "psize") Integer pageSize) {
+        return studentService.getAllStudents(studentName,pageNumber,pageSize);
     }
 
     @GetMapping("/find/{id}")
@@ -38,7 +40,7 @@ public class studentController {
         http.add("Location"
                 , studentDTO.getName() + " id= " + studentDTO.getName());
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Student "+studentDTO.getName()+" added Successfully");
+                .body("Student " + studentDTO.getName() + " added Successfully");
     }
 
     @PutMapping("/update/{id}")
